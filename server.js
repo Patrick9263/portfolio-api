@@ -34,7 +34,7 @@ function sendEmail(user, pass, to, data) {
   });
 }
 
-app.post("/portfolio-api", (req, res) => {
+app.post("/sendEmail", (req, res) => {
   res.send("POST request received.");
   sendEmail(
     process.env.EMAIL_API,
