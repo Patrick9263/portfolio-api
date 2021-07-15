@@ -5,14 +5,15 @@ const cors = require("cors");
 var nodemailer = require("nodemailer");
 
 const app = express();
-const apiPort = 5000;
+const apiPort = 3000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json())
 
 function sendEmail(user, pass, to, data) {
-  const { name, email, subject, message } = data;
+  const { name, email, message } = data;
+  const subject = 'Email from PortfolioV2'
   const mail = nodemailer.createTransport({
     service: "gmail",
     auth: { user, pass },
@@ -22,7 +23,7 @@ function sendEmail(user, pass, to, data) {
     from: email,
     to,
     subject,
-    text: `${message} \n\n- ${name}`,
+    text: `${message}\n\-----\n${name}`,
   };
 
   mail.sendMail(mailOptions, (error, info) => {
@@ -34,13 +35,13 @@ function sendEmail(user, pass, to, data) {
   });
 }
 
-app.post("/sendEmail", (req, res) => {
+app.post("/api/contact", (req, res) => {
   res.send("POST request received.");
   sendEmail(
     process.env.EMAIL_API,
     process.env.EMAIL_API_PASS,
     process.env.EMAIL_API_DESTINATION,
-    req.body.data
+    req.body
   );
 });
 
