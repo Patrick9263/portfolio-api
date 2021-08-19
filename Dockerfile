@@ -9,5 +9,5 @@ COPY package-lock.json ./
 RUN npm ci
 COPY . .
 
-EXPOSE 5000
+EXPOSE 3000
 CMD ["npm", "start"]
